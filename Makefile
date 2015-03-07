@@ -1,6 +1,6 @@
 CC=gcc
 CPPFLAGS=-O3 -fopenmp
-LDFLAGS=-lz -lm -lstdc++ -lopencv_core -lopencv_highgui -lopencv_imgproc -lopencv_nonfree -lopencv_features2d
+LDFLAGS=-lz -lm -lstdc++ -lopencv_core -lopencv_highgui -lopencv_imgproc -lopencv_nonfree -lopencv_features2d -lopencv_flann -lopencv_calib3d
 INCLUDES=-I/usr/local/include
 
 

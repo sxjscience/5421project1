@@ -4,8 +4,9 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/nonfree/features2d.hpp>
-
+#include <opencv2/features2d/features2d.hpp>
 #include <vector>
+
 
 #define VKP std::vector<cv::KeyPoint>
 #define CVTOOLDEBUG 1
@@ -21,22 +22,22 @@ class CVTool
 public:
     CVTool();
     /**
-     * @brief for function 1.
-     * detectFeatureSIFT Output the 
+     * @author sxjscience
+     *
      *
      */
-    void detectFeatureSIFT(const cv::Mat &img, int imgID = 1, int nfeature = 0, int nOctaveLayers = 3, double contrastThreshold = 0.04, double edgeThreshold=10, double sigma=1.6);
+    void detectFeatureSIFT(const cv::Mat &img, int imgID = 1, int quiet = 0,int nfeature = 0, int nOctaveLayers = 3, double contrastThreshold = 0.04, double edgeThreshold=10, double sigma=1.6);
 
-    void detectFeatureSURF(const cv::Mat &img, int imgID = 1, int nfeature = 0, int nOctaveLayers = 3, double contrastThreshold = 0.04, double edgeThreshold=10, double sigma=1.6);
+    void detectFeatureSURF(const cv::Mat &img, int imgID = 1, int quiet = 0, double hessianThreshold = 0.1, int nOctave =4, int nOctaveLayers=2, bool extended=true, bool upright=false);
 
-    void detectFeatureMSER(const cv::Mat &img, int imgID = 1, int nfeature = 0, int nOctaveLayers = 3, double contrastThreshold = 0.04, double edgeThreshold=10, double sigma=1.6);
+    void detectFeatureMSER(const cv::Mat &img, int imgID = 1,int quiet = 0,int _delta=5, int _min_area=60, int _max_area=14400, double _max_variation=0.25, double _min_diversity=.2, int _max_evolution=200, double _area_threshold=1.01, double _min_margin=0.003, int _edge_blur_size=5 );
 
-    void detectFeatureHaris(const cv::Mat &img, int imgID = 1, int nfeature = 0, int nOctaveLayers = 3, double contrastThreshold = 0.04, double edgeThreshold=10, double sigma=1.6);
+    void detectFeatureHaris(const cv::Mat &img, int imgID = 1,int quiet = 0);
 
     /**
      * @brief for function 2.
      */
-    void matchFeatures();
+    void matchFeatures(int quiet = 0);
 
     void visualizeMatching();
 
@@ -69,6 +70,7 @@ protected:
     /**
       * You can add any protected function to help.
       */
+    void setImage(int imgID, const cv::Mat &img, const VKP &keyPoints, const cv::Mat &descriptor);
 protected:
     /**
      * @brief image1_, image2_ are the two input images for testing
@@ -76,6 +78,9 @@ protected:
     cv::Mat image1_, image2_;
     VKP keyPoints1,keyPoints2;
     cv::Mat descriptor1, descriptor2;
+    std::vector<cv::DMatch> matches;
+    std::vector<cv::DMatch> goodMatches;
+    cv::Mat fundMat;
     /**
       * You can add any other members to help.
       */
